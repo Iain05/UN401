@@ -4,10 +4,10 @@ using UnityEngine;
 
 public class Spawner : MonoBehaviour
 {
-    // Start is called before the first frame update
     public GameObject enemyPrefab;
-    public GameObject multishotItemPrefab;
-    public GameObject healthItemPrefab;
+    // public GameObject multishotItemPrefab;
+    // public GameObject healthItemPrefab;
+    public GameObject[] powerUps;
 
     float timeToSpawn = 3.0f;
     float minimumInterval = 0.5f;
@@ -16,7 +16,7 @@ public class Spawner : MonoBehaviour
     void Start()
     {
         Invoke("SpawnEnemy", timeToSpawn);
-        InvokeRepeating("SpawnPowerup", powerupTime, powerupTime);
+        Invoke("SpawnPowerup", 5.0f);
     }
 
     // Update is called once per frame
@@ -35,7 +35,9 @@ public class Spawner : MonoBehaviour
     }
 
     void SpawnPowerup() {
+        int randomSpawn = Random.Range(0, powerUps.Length);
         Vector2 spawnPosition = new Vector2(Random.Range(-8.2f, 8.2f), transform.position.y);
-        Instantiate(multishotItemPrefab, spawnPosition, Quaternion.identity);
+        Instantiate(powerUps[randomSpawn], spawnPosition, Quaternion.identity);
+        Invoke("SpawnPowerup", Random.Range(3.0f, 15.0f));
     }
 }
